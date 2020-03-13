@@ -1,15 +1,18 @@
 import React from 'react';
+import {ColorPerDish, DishCategory} from './dish-category';
 
 interface RandomizedDishProps {
-  category: string;
+  category: DishCategory;
   onReturn: () => void;
 }
 
 export default function RandomizedDish(props: RandomizedDishProps) {
   return (
-      <div>
-        Randomized dish!
-        <div onClick={props.onReturn}>Powrót</div>
+      <div className="randomized-dish" style={{background: ColorPerDish[props.category]}}>
+        <label className="randomized-dish-text">
+          Randomized dish!
+          <label className="return" onClick={props.onReturn}>Powrót</label>
+        </label>
       </div>
   );
 }

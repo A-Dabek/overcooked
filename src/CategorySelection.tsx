@@ -1,15 +1,22 @@
 import React from 'react';
+import {ColorPerDish, DishCategory, LabelPerDish} from './dish-category';
 
 export interface CategorySelectionProps {
-  onSelect: (category: string) => void;
+  onSelect: (category: DishCategory) => void;
 }
 
 export default function CategorySelection(props: CategorySelectionProps) {
-  const categories = ['Zupa', 'Obiad', 'Kolacja'];
+  const categories = Object.values(DishCategory);
   return (
-      <div>
+      <div className="category-selection">
         {
-          categories.map(category => (<div key={category} onClick={() => props.onSelect(category)}>{category}</div>))
+          categories.map(category => (
+              <div className="category"
+                   style={{background: ColorPerDish[category]}}
+                   key={category}
+                   onClick={() => props.onSelect(category)}>
+                <label className="category-text">{LabelPerDish[category]}</label>
+              </div>))
         }
       </div>
   );
