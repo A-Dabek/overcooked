@@ -54,6 +54,13 @@ code {
 }
 
 .return {
+    margin-bottom: 20px;
+    font-size: calc(var(--text-size) / 3);
+    display: block;
+}
+
+.next {
+    margin-top: 20px;
     font-size: calc(var(--text-size) / 3);
     display: block;
 }
