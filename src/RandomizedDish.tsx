@@ -8,6 +8,7 @@ interface RandomizedDishProps {
 }
 
 export default function RandomizedDish(props: RandomizedDishProps) {
+
   return (
       <div className="randomized-dish" style={{background: props.backgroundColor}}>
         <label className="randomized-dish-text">

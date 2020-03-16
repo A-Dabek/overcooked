@@ -4,13 +4,15 @@ export enum DishCategory {
   supper = 'supper'
 }
 
-export const LabelPerDish: {[k in DishCategory]: string} = {
+export type DishDict<T> = {[k in DishCategory]: T};
+
+export const LabelPerDish: DishDict<string> = {
   [DishCategory.soup]: 'zupa',
   [DishCategory.dinner]: 'obiad',
   [DishCategory.supper]: 'kolacja',
 };
 
-export const ColorPerDish: {[k in DishCategory]: string} = {
+export const ColorPerDish: DishDict<string> = {
   [DishCategory.soup]: 'red',
   [DishCategory.dinner]: 'green',
   [DishCategory.supper]: 'blue',
