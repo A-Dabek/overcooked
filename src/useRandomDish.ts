@@ -1,29 +1,28 @@
 import {useEffect, useState} from 'react';
 
 export const useRandomDish = (dishes: string[]) => {
-  const [optionsLeft, setOptionsLeft] = useState<string[]>([]);
+  const [value, setValue] = useState<string>('');
+  const [optionsLeft, setOptionsLeft] = useState<string[]>(dishes);
 
-  useEffect(() => {
-    setOptionsLeft(dishes);
-  }, [dishes]);
-
-  const reset = () => {
-    setOptionsLeft(dishes);
-  };
-
-  const randomize = () => {
-    const length = optionsLeft.length;
+  const randomize = (options?: string[]) => {
+    const _options = (options || optionsLeft || []);
+    const length = _options.length;
     if (length === 0) {
-      return 'Aleś wybredna :/'
+      setValue('Aleś wybredna :/');
+      return;
     }
     const index = Math.floor(Math.random() * length);
-    const selected = optionsLeft[index];
-    setOptionsLeft(optionsLeft.filter(opt => opt !== selected));
-    return selected;
+    const selected = _options[index];
+    setOptionsLeft(_options.filter(opt => opt !== selected));
+    setValue(selected);
   };
 
+  useEffect(() => {
+    randomize();
+  }, []);
+
   return {
+    value,
     randomize,
-    reset
   };
 };

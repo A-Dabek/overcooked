@@ -1,20 +1,20 @@
 import React from 'react';
+import {useRandomDish} from './useRandomDish';
 
 interface RandomizedDishProps {
   backgroundColor: string;
-  dish: string;
   onReturn: () => void;
-  onNext: () => void;
+  options: string[];
 }
 
 export default function RandomizedDish(props: RandomizedDishProps) {
-
+  const randomizer = useRandomDish(props.options);
   return (
       <div className="randomized-dish" style={{background: props.backgroundColor}}>
         <label className="randomized-dish-text">
           <label className="return" onClick={props.onReturn}>Powrót</label>
-          {props.dish}
-          <label className="next" onClick={props.onNext}>Jeszcze raz</label>
+          {randomizer.value}
+          <label className="next" onClick={() => randomizer.randomize()}>Jeszcze raz</label>
         </label>
       </div>
   );
