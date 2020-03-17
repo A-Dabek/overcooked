@@ -13,7 +13,7 @@ function App() {
         {
           ready
               ? (!category
-              ? <CategorySelection onSelect={setCategory}/>
+              ? <CategorySelection onSelect={setCategory} onColor={() => undefined}/>
               : <RandomizedDish backgroundColor={ColorPerDish[category]}
                                 options={dishes[category]}
                                 onReturn={() => setCategory(undefined)}/>)

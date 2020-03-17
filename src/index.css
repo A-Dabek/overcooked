@@ -33,9 +33,26 @@ code {
     align-items: center;
 }
 
+.category-actions-wrapper {
+    width: 50%;
+}
+
 .category-text {
     font-size: var(--text-size);
     text-transform: capitalize;
+    display: block;
+}
+
+.category-pick-color {
+    display: inline-block;
+    width: 50%;
+    margin-right: auto;
+}
+
+.add-dish {
+    display: inline-block;
+    width: 50%;
+    margin-left: auto;
 }
 
 .randomized-dish {
