@@ -1,5 +1,5 @@
-import React, {Ref, useLayoutEffect, useRef, useState} from 'react';
-import {SwatchesPicker} from 'react-color';
+import React, {Ref, useContext, useLayoutEffect, useRef, useState} from 'react';
+import {ColorChangeHandler, SwatchesPicker} from 'react-color';
 import './ColorPick.css';
 
 const useRefSize = () => {
@@ -13,15 +13,32 @@ const useRefSize = () => {
   return [ref, width, height] as [Ref<HTMLDivElement>, number, number];
 };
 
-export default function ColorPick() {
+export interface ColorPickProps {
+
+}
+
+export default function ColorPick(props: ColorPickProps) {
   const [ref, width, height] = useRefSize();
+  const [isForeground, setForeground] = useState(true);
+  const [fg, setFg] = useState('#000');
+  const [bg, setBg] = useState('#fff');
+  const onColorChange: ColorChangeHandler = color => {
+    if (isForeground) setFg(color.hex);
+    else setBg(color.hex);
+  };
   return (
       <div className="color-picker-wrapper" ref={ref}>
-        <div className="color-picker-tabs">
-          <label className="color-picker-tab">Tekst</label>
-          <label className="color-picker-tab">Tło</label>
+        <div className="color-picker-tabs" style={{background: bg, color: fg}}>
+          <label className={`color-picker-tab ${isForeground && 'active'}`}
+                 onClick={() => setForeground(true)}>
+            Tekst
+          </label>
+          <label className={`color-picker-tab ${!isForeground && 'active'}`}
+                 onClick={() => setForeground(false)}>
+            Tło
+          </label>
         </div>
-        <SwatchesPicker height={height} width={width}/>
+        <SwatchesPicker height={height} width={width} onChangeComplete={onColorChange}/>
       </div>
   );
 }

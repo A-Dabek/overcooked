@@ -13,5 +13,9 @@
 }
 
 .color-picker-tab {
+    width: 100%;
+}
 
+.color-picker-tab.active {
+    text-decoration: underline;
 }

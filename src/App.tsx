@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
 import './App.css';
 import {ColorPerDish, DishCategory} from './dish-category';
-import {useDishes} from './useDishes';
+import {useDishes} from './hooks/useDishes';
 import RandomizedDish from './RandomizedDish/RandomizedDish';
 import CategorySelection from './CategorySelection/CategorySelection';
 import ColorPick from './ColorPick/ColorPick';
 
 export type Navigation = 'start' | 'color' | 'randomizer';
+
 
 function App() {
   const [navigator, navigate] = useState<Navigation>('start');

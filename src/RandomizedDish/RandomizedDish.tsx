@@ -1,5 +1,5 @@
 import React from 'react';
-import {useRandomDish} from '../useRandomDish';
+import {useRandomDish} from '../hooks/useRandomDish';
 import './RandomizedDish.css';
 
 interface RandomizedDishProps {
