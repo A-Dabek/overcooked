@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import './App.css';
-import {ColorPerDish, DishCategory} from './dish-category';
+import {DishCategory} from './dish-category';
 import {useDishes} from './hooks/useDishes';
 import RandomizedDish from './RandomizedDish/RandomizedDish';
 import CategorySelection from './CategorySelection/CategorySelection';
 import ColorPick from './ColorPick/ColorPick';
+import {CategoryContext} from './context/category.context';
 
 export type Navigation = 'start' | 'color' | 'randomizer';
 
@@ -17,21 +18,22 @@ function App() {
   let currentScreen = <span>loading...</span>;
   if (ready) {
     if (category) {
-      currentScreen = <RandomizedDish backgroundColor={ColorPerDish[category]}
-                                      options={dishes[category]}
+      currentScreen = <RandomizedDish options={dishes[category]}
                                       onReturn={() => setCategory(undefined)}/>
     } else {
       if (navigator === 'start') {
         currentScreen = <CategorySelection onSelect={setCategory} onColor={() => navigate('color')}/>
       } else {
-        currentScreen = <ColorPick/>
+        currentScreen = <ColorPick onReturn={() => navigate('start')}/>
       }
     }
   }
   return (
-      <div className="App">
-        {currentScreen}
-      </div>
+      <CategoryContext.Provider value={category}>
+        <div className="App">
+          {currentScreen}
+        </div>
+      </CategoryContext.Provider>
   );
 }
 

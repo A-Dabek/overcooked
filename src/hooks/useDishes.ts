@@ -10,12 +10,12 @@ export const useDishes = () => {
     [DishCategory.supper]: [],
   });
   useEffect(() => {
-    Firebase.getInstance().db.collection('dishes')
-        .get()
-        .then(snapshot => snapshot.docs[0].data())
-        .then(dishes => setDishes(dishes as any))
-        .catch()
-        .finally(() => setReady(true));
+    return Firebase.getInstance().db.collection('categories')
+        .onSnapshot(snapshot => {
+          const dishes = snapshot.docs[0].data() as DishDict<string[]>;
+          setDishes(dishes);
+          setReady(true);
+        });
   }, []);
   return [ready, dishes] as [boolean, DishDict<string[]>];
 };

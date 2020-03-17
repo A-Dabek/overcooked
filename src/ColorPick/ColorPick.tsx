@@ -1,34 +1,36 @@
-import React, {Ref, useContext, useLayoutEffect, useRef, useState} from 'react';
+import React, {CSSProperties, useContext, useState} from 'react';
 import {ColorChangeHandler, SwatchesPicker} from 'react-color';
 import './ColorPick.css';
-
-const useRefSize = () => {
-  const ref = useRef<HTMLDivElement>(null);
-  const [width, setWidth] = useState(0);
-  const [height, setHeight] = useState(0);
-  useLayoutEffect(() => {
-    setWidth(ref?.current?.clientWidth || 0);
-    setHeight(ref?.current?.clientHeight || 0);
-  }, [ref]);
-  return [ref, width, height] as [Ref<HTMLDivElement>, number, number];
-};
+import {CategoryContext} from '../context/category.context';
+import {useTheme} from '../hooks/useTheme';
+import {DishCategory} from '../dish-category';
+import {useRefSize} from '../hooks/useRefSize';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faSave, faUndo} from '@fortawesome/free-solid-svg-icons';
 
 export interface ColorPickProps {
-
+  onReturn: () => void;
 }
 
 export default function ColorPick(props: ColorPickProps) {
   const [ref, width, height] = useRefSize();
+  const category = useContext(CategoryContext);
+  const theme = useTheme(category || DishCategory.soup);
   const [isForeground, setForeground] = useState(true);
-  const [fg, setFg] = useState('#000');
-  const [bg, setBg] = useState('#fff');
+  const [fg, setFg] = useState<string | undefined>();
+  const [bg, setBg] = useState<string | undefined>();
   const onColorChange: ColorChangeHandler = color => {
     if (isForeground) setFg(color.hex);
     else setBg(color.hex);
   };
+  const save = () => {
+    theme.setTheme(fg || '#000', bg || '#fff');
+    props.onReturn();
+  };
+  const style: CSSProperties = {color: fg || theme.style.color, backgroundColor: bg || theme.style.backgroundColor};
   return (
       <div className="color-picker-wrapper" ref={ref}>
-        <div className="color-picker-tabs" style={{background: bg, color: fg}}>
+        <div className="color-picker-tabs" style={style}>
           <label className={`color-picker-tab ${isForeground && 'active'}`}
                  onClick={() => setForeground(true)}>
             Tekst
@@ -38,7 +40,17 @@ export default function ColorPick(props: ColorPickProps) {
             Tło
           </label>
         </div>
-        <SwatchesPicker height={height} width={width} onChangeComplete={onColorChange}/>
+        <SwatchesPicker height={height * 0.75} width={width} onChangeComplete={onColorChange}/>
+        <div className="color-picker-tabs" style={style}>
+          <label className="color-picker-tab" onClick={save}>
+            <FontAwesomeIcon icon={faSave} style={{paddingRight: '10px'}}/>
+            Zapisz
+          </label>
+          <label className="color-picker-tab" onClick={props.onReturn}>
+            <FontAwesomeIcon icon={faUndo} style={{paddingRight: '10px'}}/>
+            Powrót
+          </label>
+        </div>
       </div>
   );
 }

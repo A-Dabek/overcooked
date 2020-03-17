@@ -5,6 +5,8 @@
 }
 
 .color-picker-tabs {
+    box-sizing: border-box;
+    height: 12.5%;
     font-size: 2rem;
     display: flex;
     justify-content: space-around;
