@@ -1,7 +1,8 @@
 import React, {MouseEventHandler} from 'react';
-import {ColorPerDish, DishCategory, LabelPerDish} from './dish-category';
+import {ColorPerDish, DishCategory, LabelPerDish} from '../dish-category';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faPalette, faPlus} from '@fortawesome/free-solid-svg-icons'
+import './CategorySelection.css';
 
 export interface CategorySelectionProps {
   onSelect: (category: DishCategory) => void;

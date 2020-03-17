@@ -1,0 +1,38 @@
+.category-selection {
+    display: flex;
+    flex: 3;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100vh;
+}
+
+.category {
+    flex: 1;
+    background-color: red;
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.category-actions-wrapper {
+    width: 50%;
+}
+
+.category-text {
+    font-size: var(--text-size);
+    text-transform: capitalize;
+    display: block;
+}
+
+.category-pick-color {
+    display: inline-block;
+    width: 50%;
+    margin-right: auto;
+}
+
+.add-dish {
+    display: inline-block;
+    width: 50%;
+    margin-left: auto;
+}

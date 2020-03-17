@@ -1,5 +1,6 @@
 import React from 'react';
-import {useRandomDish} from './useRandomDish';
+import {useRandomDish} from '../useRandomDish';
+import './RandomizedDish.css';
 
 interface RandomizedDishProps {
   backgroundColor: string;
