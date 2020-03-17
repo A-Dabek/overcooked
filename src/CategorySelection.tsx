@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {MouseEventHandler} from 'react';
 import {ColorPerDish, DishCategory, LabelPerDish} from './dish-category';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faPalette, faPlus} from '@fortawesome/free-solid-svg-icons'
@@ -10,6 +10,10 @@ export interface CategorySelectionProps {
 
 export default function CategorySelection(props: CategorySelectionProps) {
   const categories = Object.values(DishCategory);
+  const onColor: MouseEventHandler = event => {
+    event.stopPropagation();
+    props.onColor();
+  };
   return (
       <div className="category-selection">
         {
@@ -20,7 +24,7 @@ export default function CategorySelection(props: CategorySelectionProps) {
                    onClick={() => props.onSelect(category)}>
                 <div className="category-actions-wrapper">
                   <label className="category-text">{LabelPerDish[category]}</label>
-                  <span className="category-pick-color">
+                  <span className="category-pick-color" onClick={onColor}>
                     <FontAwesomeIcon icon={faPalette}/> Kolor
                   </span>
                   <span className="add-dish">
