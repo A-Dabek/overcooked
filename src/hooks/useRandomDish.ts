@@ -1,8 +1,11 @@
 import {useEffect, useState} from 'react';
+import {useDishes} from './useDishes';
+import {DishCategory} from '../dish-category';
 
-export const useRandomDish = (dishes: string[]) => {
+export const useRandomDish = (category: DishCategory) => {
   const [value, setValue] = useState<string>('');
-  const [optionsLeft, setOptionsLeft] = useState<string[]>(dishes);
+  const [optionsLeft, setOptionsLeft] = useState<string[]>();
+  const dishes = useDishes(category);
 
   const randomize = (options?: string[]) => {
     const _options = (options || optionsLeft || []);
@@ -18,8 +21,10 @@ export const useRandomDish = (dishes: string[]) => {
   };
 
   useEffect(() => {
+    console.log(dishes);
+    setOptionsLeft(dishes);
     randomize();
-  }, []);
+  }, [dishes]);
 
   return {
     value,

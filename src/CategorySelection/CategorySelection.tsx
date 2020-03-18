@@ -1,39 +1,36 @@
 import React, {MouseEventHandler} from 'react';
-import {ColorPerDish, DishCategory, LabelPerDish} from '../dish-category';
+import {DishCategory, LabelPerDish} from '../dish-category';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faPalette, faPlus} from '@fortawesome/free-solid-svg-icons'
 import './CategorySelection.css';
+import {useTheme} from '../hooks/useTheme';
 
 export interface CategorySelectionProps {
-  onSelect: (category: DishCategory) => void;
+  onSelect: () => void;
   onColor: () => void;
+  category: DishCategory;
 }
 
 export default function CategorySelection(props: CategorySelectionProps) {
-  const categories = Object.values(DishCategory);
+  const theme = useTheme(props.category);
   const onColor: MouseEventHandler = event => {
     event.stopPropagation();
     props.onColor();
   };
   return (
-      <div className="category-selection">
-        {
-          categories.map(category => (
-              <div className="category"
-                   style={{background: ColorPerDish[category]}}
-                   key={category}
-                   onClick={() => props.onSelect(category)}>
-                <div className="category-actions-wrapper">
-                  <label className="category-text">{LabelPerDish[category]}</label>
-                  <span className="category-pick-color" onClick={onColor}>
+    <div className="category"
+         style={theme.style}
+         key={props.category}
+         onClick={props.onSelect}>
+      <div className="category-actions-wrapper">
+        <label className="category-text">{LabelPerDish[props.category]}</label>
+        <span className="category-pick-color" onClick={onColor}>
                     <FontAwesomeIcon icon={faPalette}/> Kolor
                   </span>
-                  <span className="add-dish">
+        <span className="add-dish">
                     <FontAwesomeIcon icon={faPlus}/> Dodaj
                   </span>
-                </div>
-              </div>))
-        }
       </div>
+    </div>
   );
 }

@@ -9,31 +9,61 @@ import {CategoryContext} from './context/category.context';
 
 export type Navigation = 'start' | 'color' | 'randomizer';
 
-
-function App() {
-  const [navigator, navigate] = useState<Navigation>('start');
-  const [ready, dishes] = useDishes();
+const useNavigation = () => {
+  const [route, navigate] = useState<Navigation>('start');
   const [category, setCategory] = useState<DishCategory | undefined>();
 
-  let currentScreen = <span>loading...</span>;
-  if (ready) {
-    if (category) {
-      currentScreen = <RandomizedDish options={dishes[category]}
-                                      onReturn={() => setCategory(undefined)}/>
-    } else {
-      if (navigator === 'start') {
-        currentScreen = <CategorySelection onSelect={setCategory} onColor={() => navigate('color')}/>
-      } else {
-        currentScreen = <ColorPick onReturn={() => navigate('start')}/>
-      }
-    }
+  const goToStart = () => {
+    navigate('start');
+    setCategory(undefined);
+  };
+
+  const goToColor = (category: DishCategory) => {
+    navigate('color');
+    setCategory(category);
+  };
+
+  const goToRandomizer = (category: DishCategory) => {
+    navigate('randomizer');
+    setCategory(category);
+  };
+
+  return {route, category, goToStart, goToColor, goToRandomizer};
+};
+
+
+function App() {
+  const navigation = useNavigation();
+  const categories = Object.values(DishCategory);
+
+  let currentScreen: JSX.Element | undefined = <span>loading...</span>;
+  let startScreen = <div className="category-selection-container">
+    {
+      categories.map(cat =>
+        <CategorySelection category={cat}
+                           key={cat}
+                           onSelect={() => navigation.goToRandomizer(cat)}
+                           onColor={() => navigation.goToColor(cat)}/>
+      )
+    } </div>;
+
+  switch (navigation.route) {
+    case 'color':
+      currentScreen = <ColorPick onReturn={navigation.goToStart}/>;
+      break;
+    case 'randomizer':
+      currentScreen = navigation.category && <RandomizedDish onReturn={navigation.goToStart}/>
+      break;
+    case 'start':
+      currentScreen = startScreen;
+      break;
   }
   return (
-      <CategoryContext.Provider value={category}>
-        <div className="App">
-          {currentScreen}
-        </div>
-      </CategoryContext.Provider>
+    <CategoryContext.Provider value={navigation.category}>
+      <div className="App">
+        {currentScreen}
+      </div>
+    </CategoryContext.Provider>
   );
 }
 

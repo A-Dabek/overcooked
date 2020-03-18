@@ -11,9 +11,3 @@ export const LabelPerDish: DishDict<string> = {
   [DishCategory.dinner]: 'obiad',
   [DishCategory.supper]: 'kolacja',
 };
-
-export const ColorPerDish: DishDict<string> = {
-  [DishCategory.soup]: 'red',
-  [DishCategory.dinner]: 'green',
-  [DishCategory.supper]: 'blue',
-};

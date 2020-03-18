@@ -1,21 +1,15 @@
 import {useEffect, useState} from 'react';
-import {DishCategory, DishDict} from '../dish-category';
+import {DishCategory} from '../dish-category';
 import {Firebase} from '../firebase';
 
-export const useDishes = () => {
-  const [ready, setReady] = useState(false);
-  const [dishes, setDishes] = useState<DishDict<string[]>>({
-    [DishCategory.soup]: [],
-    [DishCategory.dinner]: [],
-    [DishCategory.supper]: [],
-  });
+export const useDishes = (category: DishCategory) => {
+  const [dishes, setDishes] = useState<string[]>([]);
   useEffect(() => {
-    return Firebase.getInstance().db.collection('categories')
-        .onSnapshot(snapshot => {
-          const dishes = snapshot.docs[0].data() as DishDict<string[]>;
-          setDishes(dishes);
-          setReady(true);
-        });
+    return Firebase.getInstance().db.collection('categories').doc(category)
+      .onSnapshot(snapshot => {
+        const data = snapshot.data() as {dishes: string[]};
+        setDishes(data.dishes || []);
+      });
   }, []);
-  return [ready, dishes] as [boolean, DishDict<string[]>];
+  return dishes;
 };

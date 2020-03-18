@@ -7,13 +7,12 @@ import {DishCategory} from '../dish-category';
 
 interface RandomizedDishProps {
   onReturn: () => void;
-  options: string[];
 }
 
 export default function RandomizedDish(props: RandomizedDishProps) {
-  const category = useContext(CategoryContext);
+  const category = useContext(CategoryContext) || DishCategory.soup;
   const theme = useTheme(category || DishCategory.soup);
-  const randomizer = useRandomDish(props.options);
+  const randomizer = useRandomDish(category);
   return (
       <div className="randomized-dish" style={theme.style}>
         <label className="randomized-dish-text">
