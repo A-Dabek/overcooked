@@ -67,7 +67,7 @@ function App() {
       currentScreen = startScreen;
       break;
     case 'add':
-      currentScreen = <AddNew/>;
+      currentScreen = <AddNew onReturn={navigation.goToStart}/>;
       break;
   }
   return (

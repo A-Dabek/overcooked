@@ -1,26 +1,26 @@
 .randomized-dish {
-    background-color: red;
     height: calc(100vh - 40px);
     margin: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     word-break: normal;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .randomized-dish-text {
-    font-size: calc(var(--text-size) / 2);
+    font-size: calc(var(--text-size));
     display: block;
+    text-align: center;
+    height: 75%;
+    padding: 25% 20px;
+    box-sizing: border-box;
 }
 
 .return {
-    margin-bottom: 20px;
-    font-size: calc(var(--text-size) / 3);
-    display: block;
+    font-size: calc(var(--text-size) * 0.45);
 }
 
 .next {
-    margin-top: 20px;
-    font-size: calc(var(--text-size) / 3);
-    display: block;
+    font-size: calc(var(--text-size) * 0.45);
 }

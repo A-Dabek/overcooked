@@ -1,0 +1,33 @@
+.add-new-wrapper {
+    margin: 20px;
+    height: calc(100vh - 40px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.add-new-wrapper .color-picker-tabs {
+    flex-shrink: 1;
+}
+
+.input-wrapper {
+    flex-grow: 1;
+    padding-top: 50%;
+    padding-bottom: 50%;
+    font: 95% Arial, Helvetica, sans-serif;
+    max-width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+textarea.category-name {
+    font-size: calc(var(--text-size) * 0.5);
+    outline: none;
+    box-sizing: border-box;
+    width: 100%;
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 5%;
+    color: #555;
+}

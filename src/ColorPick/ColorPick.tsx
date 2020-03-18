@@ -28,24 +28,24 @@ export default function ColorPick(props: ColorPickProps) {
   };
   const style: CSSProperties = {color: fg || theme.style.color, backgroundColor: bg || theme.style.backgroundColor};
   return (
-    <div className="color-picker-wrapper" ref={ref}>
+    <div className="color-picker-wrapper" ref={ref} style={style}>
       <div className="color-picker-tabs">
-        <label style={style} className={`color-picker-tab ${isForeground && 'active'}`}
+        <label className={`color-picker-tab ${isForeground && 'active'}`}
                onClick={() => setForeground(true)}>
           Tekst
         </label>
-        <label style={style} className={`color-picker-tab ${!isForeground && 'active'}`}
+        <label className={`color-picker-tab ${!isForeground && 'active'}`}
                onClick={() => setForeground(false)}>
           Tło
         </label>
       </div>
       <SwatchesPicker height={height * 0.75} width={width} onChangeComplete={onColorChange}/>
       <div className="color-picker-tabs">
-        <label style={style} className="color-picker-tab" onClick={save}>
+        <label className="color-picker-tab" onClick={save}>
           <FontAwesomeIcon icon={faSave} style={{paddingRight: '10px'}}/>
           Zapisz
         </label>
-        <label style={style} className="color-picker-tab" onClick={props.onReturn}>
+        <label className="color-picker-tab" onClick={props.onReturn}>
           <FontAwesomeIcon icon={faUndo} style={{paddingRight: '10px'}}/>
           Powrót
         </label>

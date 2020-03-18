@@ -2,16 +2,16 @@
     width: 100vw;
     height: 100vh;
     overflow: hidden;
+    text-align: center;
 }
 
 .color-picker-tabs {
     box-sizing: border-box;
     height: 12.5%;
-    font-size: 2rem;
+    font-size: calc(var(--text-size) * 0.6);
     display: flex;
     justify-content: space-around;
-    padding-bottom: 15px;
-    padding-top: 15px;
+    padding-top: 7.5%;
     margin-left: 10px;
     margin-right: 10px;
 }
