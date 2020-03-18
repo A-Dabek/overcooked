@@ -1,26 +1,16 @@
-import {CSSProperties, useEffect, useState} from 'react';
+import {CSSProperties, useContext} from 'react';
 import {DishCategory} from '../dish-category';
 import {Firebase} from '../firebase';
-
-interface CategoryTheme {
-  fg: string;
-  bg: string;
-}
+import {AppStateContext} from '../context/state.context';
 
 export const useTheme = (category: DishCategory) => {
-  const [fg, setFg] = useState<string>('#000');
-  const [bg, setBg] = useState<string>('#fff');
-  const resuorce = Firebase.getInstance().db.collection('theme').doc(category);
-  useEffect(() => {
-    return resuorce.onSnapshot(snapshot => {
-          const ct = snapshot.data() as CategoryTheme;
-          setFg(ct.fg);
-          setBg(ct.bg)
-        });
-  }, [category]);
+  const appState = useContext(AppStateContext);
+  const fg = appState.themes[category].color;
+  const bg = appState.themes[category].backgroundColor;
 
+  const resource = Firebase.getInstance().db.collection('theme').doc(category);
   const setTheme = (fg: string, bg: string) => {
-    resuorce.set({fg, bg});
+    resource.set({fg, bg});
   };
 
   const style: CSSProperties = {color: fg, backgroundColor: bg};

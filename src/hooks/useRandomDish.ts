@@ -1,11 +1,11 @@
-import {useEffect, useState} from 'react';
-import {useDishes} from './useDishes';
+import {useContext, useEffect, useState} from 'react';
 import {DishCategory} from '../dish-category';
+import {AppStateContext} from '../context/state.context';
 
 export const useRandomDish = (category: DishCategory) => {
   const [value, setValue] = useState<string>('');
-  const [optionsLeft, setOptionsLeft] = useState<string[]>();
-  const dishes = useDishes(category);
+  const dishes = useContext(AppStateContext).dishes[category];
+  const [optionsLeft, setOptionsLeft] = useState<string[]>(dishes);
 
   const randomize = (options?: string[]) => {
     const _options = (options || optionsLeft || []);
@@ -21,10 +21,8 @@ export const useRandomDish = (category: DishCategory) => {
   };
 
   useEffect(() => {
-    console.log(dishes);
-    setOptionsLeft(dishes);
     randomize();
-  }, [dishes]);
+  }, []);
 
   return {
     value,

@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
 import './App.css';
 import {DishCategory} from './dish-category';
-import {useDishes} from './hooks/useDishes';
 import RandomizedDish from './RandomizedDish/RandomizedDish';
 import CategorySelection from './CategorySelection/CategorySelection';
 import ColorPick from './ColorPick/ColorPick';
 import {CategoryContext} from './context/category.context';
+import {useAppState} from './hooks/useAppState';
+import {AppStateContext} from './context/state.context';
 
 export type Navigation = 'start' | 'color' | 'randomizer';
 
@@ -35,6 +36,7 @@ const useNavigation = () => {
 function App() {
   const navigation = useNavigation();
   const categories = Object.values(DishCategory);
+  const state = useAppState();
 
   let currentScreen: JSX.Element | undefined = <span>loading...</span>;
   let startScreen = <div className="category-selection-container">
@@ -59,11 +61,25 @@ function App() {
       break;
   }
   return (
-    <CategoryContext.Provider value={navigation.category}>
-      <div className="App">
-        {currentScreen}
-      </div>
-    </CategoryContext.Provider>
+    <div className="App">
+      {
+        state.ready
+          ? (
+            <AppStateContext.Provider value={state.appState}>
+              {
+                navigation.category
+                  ? (
+                    <CategoryContext.Provider value={navigation.category}>
+                      {currentScreen}
+                    </CategoryContext.Provider>
+                  )
+                  : startScreen
+              }
+            </AppStateContext.Provider>
+          )
+          : <span>loading...</span>
+      }
+    </div>
   );
 }
 
