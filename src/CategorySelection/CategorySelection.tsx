@@ -8,6 +8,7 @@ import {useTheme} from '../hooks/useTheme';
 export interface CategorySelectionProps {
   onSelect: () => void;
   onColor: () => void;
+  onAdd: () => void;
   category: DishCategory;
 }
 
@@ -17,6 +18,10 @@ export default function CategorySelection(props: CategorySelectionProps) {
     event.stopPropagation();
     props.onColor();
   };
+  const onAdd: MouseEventHandler = event => {
+    event.stopPropagation();
+    props.onAdd();
+  };
   return (
     <div className="category"
          style={theme.style}
@@ -25,11 +30,11 @@ export default function CategorySelection(props: CategorySelectionProps) {
       <div className="category-actions-wrapper">
         <label className="category-text">{LabelPerDish[props.category]}</label>
         <span className="category-pick-color" onClick={onColor}>
-                    <FontAwesomeIcon icon={faPalette}/> Kolor
-                  </span>
-        <span className="add-dish">
-                    <FontAwesomeIcon icon={faPlus}/> Dodaj
-                  </span>
+          <FontAwesomeIcon icon={faPalette}/> Kolor
+        </span>
+        <span className="add-dish" onClick={onAdd}>
+          <FontAwesomeIcon icon={faPlus}/> Dodaj
+        </span>
       </div>
     </div>
   );

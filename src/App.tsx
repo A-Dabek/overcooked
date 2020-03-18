@@ -7,8 +7,9 @@ import ColorPick from './ColorPick/ColorPick';
 import {CategoryContext} from './context/category.context';
 import {useAppState} from './hooks/useAppState';
 import {AppStateContext} from './context/state.context';
+import AddNew from './AddNew/AddNew';
 
-export type Navigation = 'start' | 'color' | 'randomizer';
+export type Navigation = 'start' | 'color' | 'randomizer' | 'add';
 
 const useNavigation = () => {
   const [route, navigate] = useState<Navigation>('start');
@@ -29,7 +30,12 @@ const useNavigation = () => {
     setCategory(category);
   };
 
-  return {route, category, goToStart, goToColor, goToRandomizer};
+  const goToAddNew = (category: DishCategory) => {
+    navigate('add');
+    setCategory(category);
+  };
+
+  return {route, category, goToStart, goToColor, goToRandomizer, goToAddNew};
 };
 
 
@@ -45,7 +51,8 @@ function App() {
         <CategorySelection category={cat}
                            key={cat}
                            onSelect={() => navigation.goToRandomizer(cat)}
-                           onColor={() => navigation.goToColor(cat)}/>
+                           onColor={() => navigation.goToColor(cat)}
+                           onAdd={() => navigation.goToAddNew(cat)}/>
       )
     } </div>;
 
@@ -58,6 +65,9 @@ function App() {
       break;
     case 'start':
       currentScreen = startScreen;
+      break;
+    case 'add':
+      currentScreen = <AddNew/>;
       break;
   }
   return (
