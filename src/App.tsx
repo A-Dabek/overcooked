@@ -1,15 +1,16 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import './App.css';
-import {DishCategory} from './dish-category';
+import { DishCategory } from './dish-category';
 import RandomizedDish from './RandomizedDish/RandomizedDish';
 import CategorySelection from './CategorySelection/CategorySelection';
 import ColorPick from './ColorPick/ColorPick';
-import {CategoryContext} from './context/category.context';
-import {useAppState} from './hooks/useAppState';
-import {AppStateContext} from './context/state.context';
+import { CategoryContext } from './context/category.context';
+import { useAppState } from './hooks/useAppState';
+import { AppStateContext } from './context/state.context';
 import AddNew from './AddNew/AddNew';
+import AllDishes from './AllDishes/AllDishes';
 
-export type Navigation = 'start' | 'color' | 'randomizer' | 'add';
+export type Navigation = 'start' | 'color' | 'randomizer' | 'add' | 'list';
 
 const useNavigation = () => {
   const [route, navigate] = useState<Navigation>('start');
@@ -35,9 +36,21 @@ const useNavigation = () => {
     setCategory(category);
   };
 
-  return {route, category, goToStart, goToColor, goToRandomizer, goToAddNew};
-};
+  const goToList = (category: DishCategory) => {
+    navigate('list');
+    setCategory(category);
+  };
 
+  return {
+    route,
+    category,
+    goToStart,
+    goToColor,
+    goToRandomizer,
+    goToAddNew,
+    goToList
+  };
+};
 
 function App() {
   const navigation = useNavigation();
@@ -45,50 +58,55 @@ function App() {
   const state = useAppState();
 
   let currentScreen: JSX.Element | undefined = <span>loading...</span>;
-  let startScreen = <div className="category-selection-container">
-    {
-      categories.map(cat =>
-        <CategorySelection category={cat}
-                           key={cat}
-                           onSelect={() => navigation.goToRandomizer(cat)}
-                           onColor={() => navigation.goToColor(cat)}
-                           onAdd={() => navigation.goToAddNew(cat)}/>
-      )
-    } </div>;
+  let startScreen = (
+    <div className="category-selection-container">
+      {categories.map(cat => (
+        <CategorySelection
+          category={cat}
+          key={cat}
+          onSelect={() => navigation.goToRandomizer(cat)}
+          onColor={() => navigation.goToColor(cat)}
+          onAdd={() => navigation.goToAddNew(cat)}
+          onAll={() => navigation.goToList(cat)}
+        />
+      ))}{' '}
+    </div>
+  );
 
   switch (navigation.route) {
     case 'color':
-      currentScreen = <ColorPick onReturn={navigation.goToStart}/>;
+      currentScreen = <ColorPick onReturn={navigation.goToStart} />;
       break;
     case 'randomizer':
-      currentScreen = navigation.category && <RandomizedDish onReturn={navigation.goToStart}/>
+      currentScreen = navigation.category && (
+        <RandomizedDish onReturn={navigation.goToStart} />
+      );
       break;
     case 'start':
       currentScreen = startScreen;
       break;
     case 'add':
-      currentScreen = <AddNew onReturn={navigation.goToStart}/>;
+      currentScreen = <AddNew onReturn={navigation.goToStart} />;
+      break;
+    case 'list':
+      currentScreen = <AllDishes onReturn={navigation.goToStart} />;
       break;
   }
   return (
     <div className="App">
-      {
-        state.ready
-          ? (
-            <AppStateContext.Provider value={state.appState}>
-              {
-                navigation.category
-                  ? (
-                    <CategoryContext.Provider value={navigation.category}>
-                      {currentScreen}
-                    </CategoryContext.Provider>
-                  )
-                  : startScreen
-              }
-            </AppStateContext.Provider>
-          )
-          : <span>loading...</span>
-      }
+      {state.ready ? (
+        <AppStateContext.Provider value={state.appState}>
+          {navigation.category ? (
+            <CategoryContext.Provider value={navigation.category}>
+              {currentScreen}
+            </CategoryContext.Provider>
+          ) : (
+            startScreen
+          )}
+        </AppStateContext.Provider>
+      ) : (
+        <span>loading...</span>
+      )}
     </div>
   );
 }
