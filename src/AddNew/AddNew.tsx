@@ -17,7 +17,7 @@ export default function AddNew(props: AddNewProps) {
   const theme = useTheme(category);
   const dishes = useContext(AppStateContext).dishes[category];
   const [text, setText] = useState<string>('');
-  const rows = Math.floor(text.length / 10);
+  const rows = Math.floor(text.length / 10) + 1;
   const save = () => {
     Firebase.getInstance()
       .db.collection('categories')
@@ -28,23 +28,12 @@ export default function AddNew(props: AddNewProps) {
     props.onReturn();
   };
   const onEnter: KeyboardEventHandler = event => {
-    console.log(event);
     if (event.key === 'Enter') {
       save();
     }
   };
   return (
     <div className="add-new-wrapper" style={theme.style}>
-      <div className="input-wrapper">
-        <textarea
-          className="category-name"
-          placeholder="Podaj nazwę dania"
-          rows={rows}
-          value={text}
-          onKeyUp={onEnter}
-          onChange={event => setText(event.target.value)}
-        />
-      </div>
       <div style={theme.style} className="color-picker-tabs">
         <label className="color-picker-tab" onClick={() => save()}>
           <FontAwesomeIcon icon={faSave} style={{ paddingRight: '10px' }} />
@@ -54,6 +43,16 @@ export default function AddNew(props: AddNewProps) {
           <FontAwesomeIcon icon={faUndo} style={{ paddingRight: '10px' }} />
           Powrót
         </label>
+      </div>
+      <div className="input-wrapper">
+        <textarea
+          className="category-name"
+          placeholder="Podaj nazwę dania"
+          rows={rows}
+          value={text}
+          onKeyUp={onEnter}
+          onChange={event => setText(event.target.value)}
+        />
       </div>
     </div>
   );
