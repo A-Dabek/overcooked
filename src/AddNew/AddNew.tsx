@@ -1,16 +1,14 @@
 import React, { useContext, useState, KeyboardEventHandler } from 'react';
 import './AddNew.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSave, faUndo } from '@fortawesome/free-solid-svg-icons';
+import { faSave } from '@fortawesome/free-solid-svg-icons';
 import { useTheme } from '../hooks/useTheme';
 import { CategoryContext } from '../context/category.context';
 import { AppStateContext } from '../context/state.context';
 import { Firebase } from '../firebase';
-import { KeyObject } from 'crypto';
+import { Redirect } from 'react-router-dom';
 
-export interface AddNewProps {
-  onReturn: () => void;
-}
+export interface AddNewProps {}
 
 export default function AddNew(props: AddNewProps) {
   const category = useContext(CategoryContext);
@@ -18,6 +16,7 @@ export default function AddNew(props: AddNewProps) {
   const dishes = useContext(AppStateContext).dishes[category];
   const [text, setText] = useState<string>('');
   const rows = Math.floor(text.length / 10) + 1;
+  const [route, navigate] = useState<string>('');
   const save = () => {
     Firebase.getInstance()
       .db.collection('categories')
@@ -25,23 +24,22 @@ export default function AddNew(props: AddNewProps) {
       .set({
         dishes: [...dishes, text]
       });
-    props.onReturn();
+    navigate('/');
   };
   const onEnter: KeyboardEventHandler = event => {
     if (event.key === 'Enter') {
       save();
     }
   };
+  if (route) {
+    return <Redirect to={route}></Redirect>;
+  }
   return (
     <div className="add-new-wrapper" style={theme.style}>
       <div style={theme.style} className="color-picker-tabs">
         <label className="color-picker-tab" onClick={() => save()}>
           <FontAwesomeIcon icon={faSave} style={{ paddingRight: '10px' }} />
           Zapisz
-        </label>
-        <label className="color-picker-tab" onClick={props.onReturn}>
-          <FontAwesomeIcon icon={faUndo} style={{ paddingRight: '10px' }} />
-          Powrót
         </label>
       </div>
       <div className="input-wrapper">

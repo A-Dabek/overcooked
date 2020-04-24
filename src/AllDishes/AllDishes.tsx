@@ -4,9 +4,7 @@ import { useTheme } from '../hooks/useTheme';
 import { CategoryContext } from '../context/category.context';
 import { AppStateContext } from '../context/state.context';
 
-interface AllDishesProps {
-  onReturn: () => void;
-}
+interface AllDishesProps {}
 
 export default function AllDishes(props: AllDishesProps) {
   const category = useContext(CategoryContext);

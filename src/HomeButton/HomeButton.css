@@ -1,0 +1,11 @@
+.home-button-wrapper {
+  margin-left: 20px;
+  margin-right: 20px;
+  position: fixed;
+  padding: 5px;
+  top: 20px;
+}
+
+a {
+  color: inherit;
+}
