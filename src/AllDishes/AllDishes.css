@@ -2,7 +2,7 @@
   height: calc(100vh - 40px);
   margin: 20px;
   word-break: normal;
-  overflow: hidden;
+  overflow: scroll;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
