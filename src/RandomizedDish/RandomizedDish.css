@@ -1,26 +1,26 @@
 .randomized-dish {
-    height: calc(100vh - 40px);
-    margin: 20px;
-    word-break: normal;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  height: calc(100vh - 40px);
+  margin: 20px;
+  word-break: normal;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .randomized-dish-text {
-    font-size: calc(var(--text-size));
-    display: block;
-    text-align: center;
-    height: 75%;
-    padding: 25% 20px;
-    box-sizing: border-box;
+  font-size: calc(var(--text-size));
+  display: block;
+  text-align: center;
+  padding: 25% 20px;
+  padding-top: 50%;
+  box-sizing: border-box;
 }
 
 .return {
-    font-size: calc(var(--text-size) * 0.45);
+  font-size: calc(var(--text-size) * 0.45);
 }
 
 .next {
-    font-size: calc(var(--text-size) * 0.45);
+  font-size: calc(var(--text-size) * 0.45);
 }
