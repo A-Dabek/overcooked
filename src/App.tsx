@@ -9,10 +9,7 @@ import { useAppState } from './hooks/useAppState';
 import { AppStateContext } from './context/state.context';
 import AddNew from './AddNew/AddNew';
 import AllDishes from './AllDishes/AllDishes';
-import { Route, Switch, BrowserRouter, Redirect, Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome } from '@fortawesome/free-solid-svg-icons';
-import { useTheme } from './hooks/useTheme';
+import { Route, Switch, BrowserRouter, Redirect } from 'react-router-dom';
 import HomeButton from './HomeButton/HomeButton';
 
 function App() {
@@ -25,12 +22,11 @@ function App() {
         {state.ready ? (
           <AppStateContext.Provider value={state.appState}>
             <CategoryContext.Provider value={category}>
-              <HomeButton />
               <Switch>
                 <Redirect exact from="/" to="/home"></Redirect>
                 <Route path="/home">
                   <div className="category-selection-container">
-                    {categories.map(cat => (
+                    {categories.map((cat) => (
                       <CategorySelection
                         category={cat}
                         key={cat}
@@ -40,15 +36,19 @@ function App() {
                   </div>
                 </Route>
                 <Route path="/random">
+                  <HomeButton />
                   <RandomizedDish />
                 </Route>
                 <Route path="/new">
+                  <HomeButton />
                   <AddNew />
                 </Route>
                 <Route path="/list">
+                  <HomeButton />
                   <AllDishes />
                 </Route>
                 <Route path="/theme">
+                  <HomeButton />
                   <ColorPick />
                 </Route>
               </Switch>

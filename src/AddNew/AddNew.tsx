@@ -15,18 +15,18 @@ export default function AddNew(props: AddNewProps) {
   const theme = useTheme(category);
   const dishes = useContext(AppStateContext).dishes[category];
   const [text, setText] = useState<string>('');
-  const rows = Math.floor(text.length / 10) + 1;
+  const rows = Math.floor(text.length / 10) + 2;
   const [route, navigate] = useState<string>('');
   const save = () => {
     Firebase.getInstance()
       .db.collection('categories')
       .doc(category)
       .set({
-        dishes: [...dishes, text]
+        dishes: [...dishes, text],
       });
     navigate('/');
   };
-  const onEnter: KeyboardEventHandler = event => {
+  const onEnter: KeyboardEventHandler = (event) => {
     if (event.key === 'Enter') {
       save();
     }
@@ -49,7 +49,7 @@ export default function AddNew(props: AddNewProps) {
           rows={rows}
           value={text}
           onKeyUp={onEnter}
-          onChange={event => setText(event.target.value)}
+          onChange={(event) => setText(event.target.value)}
         />
       </div>
     </div>
